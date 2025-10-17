@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide@3.4.1/dist/css/glide.core.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide@3.4.1/dist/css/glide.theme.min.css">
     <style>
-        /* WARNING: This version uses fixed pixel widths and heights, making it NON-RESPONSIVE. */
-        /* It will not adapt well to different screen sizes (mobile, tablet, large desktop monitors). */
+        /* This version is RESPONSIVE and includes auto-scrolling sliders. */
+        /* Fixed width/height properties have been removed to allow responsiveness. */
 
         * {
             margin: 0;
@@ -21,41 +21,29 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #000;
             color: #fff;
-            overflow-x: hidden; /* Prevent body horizontal scroll */
+            overflow-x: hidden; /* Prevent horizontal scroll on body */
             cursor: none;
-            width: 1440px; /* Fixed body width */
-            margin: 0 auto; /* Center the fixed-width body */
+            /* Removed fixed body width */
         }
 
-        /* Custom Scrollbar Styles (for any remaining potential overflows, though Glide replaces it) */
-        .glide__track::-webkit-scrollbar,
-        .skills-grid::-webkit-scrollbar,
-        .projects-grid::-webkit-scrollbar,
-        .current-projects::-webkit-scrollbar {
+        /* Custom Scrollbar Styles for horizontal scrolling sections */
+        /* These will still apply to Glide.js track if scrollbars are needed (e.g., if perView is low) */
+        .glide__track::-webkit-scrollbar {
             height: 10px; /* Width of the scrollbar */
         }
 
-        .glide__track::-webkit-scrollbar-track,
-        .skills-grid::-webkit-scrollbar-track,
-        .projects-grid::-webkit-scrollbar-track,
-        .current-projects::-webkit-scrollbar-track {
+        .glide__track::-webkit-scrollbar-track {
             background: rgba(0, 255, 255, 0.05); /* Track color */
             border-radius: 10px;
         }
 
-        .glide__track::-webkit-scrollbar-thumb,
-        .skills-grid::-webkit-scrollbar-thumb,
-        .projects-grid::-webkit-scrollbar-thumb,
-        .current-projects::-webkit-scrollbar-thumb {
+        .glide__track::-webkit-scrollbar-thumb {
             background: linear-gradient(90deg, #00ffff, #ff00ff); /* Thumb color */
             border-radius: 10px;
             border: 2px solid rgba(0, 0, 0, 0.5); /* Border around thumb */
         }
 
-        .glide__track::-webkit-scrollbar-thumb:hover,
-        .skills-grid::-webkit-scrollbar-thumb:hover,
-        .projects-grid::-webkit-scrollbar-thumb:hover,
-        .current-projects::-webkit-scrollbar-thumb:hover {
+        .glide__track::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(90deg, #00ffff, #ff00ff);
             box-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
         }
@@ -94,8 +82,8 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%; /* Still use 100% for full viewport coverage */
-            height: 100%; /* Still use 100% for full viewport coverage */
+            width: 100%;
+            height: 100%;
             z-index: -2;
             background: radial-gradient(circle at 20% 50%, rgba(120, 0, 255, 0.3) 0%, transparent 50%),
                         radial-gradient(circle at 80% 80%, rgba(0, 255, 255, 0.3) 0%, transparent 50%),
@@ -113,8 +101,8 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%; /* Still use 100% for full viewport coverage */
-            height: 100%; /* Still use 100% for full viewport coverage */
+            width: 100%;
+            height: 100%;
             z-index: -1;
             background-image: 
                 linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
@@ -133,9 +121,7 @@
         nav {
             position: fixed;
             top: 0;
-            width: 1440px; /* Fixed nav width */
-            left: 50%; /* Center the nav bar */
-            transform: translateX(-50%); /* Center the nav bar */
+            width: 100%; /* Responsive width */
             padding: 20px 80px;
             display: flex;
             justify-content: space-between;
@@ -298,14 +284,44 @@
             transform: translateY(-2px);
         }
 
-        /* Mobile Menu Toggle - Hidden by default for fixed desktop layout */
+        /* Mobile Menu Toggle */
         .menu-toggle {
-            display: none; 
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 1001; /* Ensure it's above other content when active */
+        }
+
+        .menu-toggle span {
+            width: 30px;
+            height: 3px;
+            background: linear-gradient(90deg, #00ffff, #ff00ff);
+            border-radius: 3px;
+            transition: all 0.3s;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        .menu-toggle:hover span {
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translateY(12px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translateY(-12px);
         }
 
         /* Hero Section */
         .hero {
-            height: 800px; /* Fixed height */
+            height: 100vh; /* Responsive height */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -384,7 +400,7 @@
             font-size: 24px;
             color: #fff;
             margin-bottom: 50px;
-            min-height: 30px; /* Keep min-height for typing animation space */
+            min-height: 30px;
             animation: fadeIn 1.5s ease 1s both;
         }
 
@@ -470,7 +486,7 @@
             animation: float3D 20s infinite ease-in-out;
         }
 
-        .float-1 { top: 10%; left: 10%; animation-delay: 0s; } /* Keep % for relative positioning within hero */
+        .float-1 { top: 10%; left: 10%; animation-delay: 0s; }
         .float-2 { top: 60%; right: 10%; animation-delay: -7s; }
         .float-3 { bottom: 10%; left: 30%; animation-delay: -14s; }
 
@@ -483,7 +499,7 @@
         /* Sections */
         .section {
             padding: 150px 80px;
-            width: 1400px; /* Fixed width */
+            max-width: 1400px; /* Responsive max-width */
             margin: 0 auto;
             position: relative;
         }
@@ -514,16 +530,14 @@
         /* Glide.js Custom Styling */
         .glide {
             position: relative;
-            /* Ensure the glide container takes up the available content width within the section */
-            width: 1240px; /* 1400px (section width) - 2*80px (section padding) */
-            margin: 0 auto; /* Center the slider within the section */
+            /* width is implicitly 100% of its parent's available content width */
         }
 
         .glide__arrows {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            width: calc(100% + 100px); /* Extend arrows beyond the 1240px content width */
+            width: calc(100% + 100px); /* Extend arrows beyond the content width */
             left: -50px; /* Pull arrows out to the sides */
             display: flex;
             justify-content: space-between;
@@ -584,8 +598,6 @@
 
         /* All slide containers will have the .glide__slides class */
         .glide__slides {
-            /* These styles are for the ul.glide__slides container */
-            /* Glide.js automatically adds display: flex and handles overflow */
             padding: 0; /* Override default ul padding */
         }
 
@@ -594,9 +606,9 @@
             height: auto; /* Ensure height adapts to content */
         }
 
-        /* Skills Section - Now handled by Glide.js */
+        /* Skill Card (inside slider) */
         .skill-card {
-            width: 386.66px; /* Fixed width: (1240px content area - 2 * 40px_gap) / 3 cards = 386.66px */
+            /* width is handled by Glide's perView and gap options */
             background: linear-gradient(135deg, rgba(0, 255, 255, 0.05), rgba(255, 0, 255, 0.05));
             padding: 50px;
             border-radius: 30px;
@@ -607,6 +619,7 @@
             transform: translateY(50px) rotateY(-10deg);
             position: relative;
             overflow: hidden;
+            flex-shrink: 0; /* Important for Glide.js slides */
         }
 
         .skill-card::before {
@@ -677,9 +690,9 @@
             font-size: 16px;
         }
 
-        /* Projects Section - Now handled by Glide.js */
+        /* Project Card (inside slider) */
         .project-card {
-            width: 380px; /* Fixed width: (1240px content area - 2 * 50px_gap) / 3 cards = 380px */
+            /* width is handled by Glide's perView and gap options */
             background: rgba(0, 0, 0, 0.8);
             border-radius: 30px;
             overflow: hidden;
@@ -688,6 +701,7 @@
             opacity: 0;
             transform: scale(0.8) rotateX(-20deg);
             position: relative;
+            flex-shrink: 0; /* Important for Glide.js slides */
         }
 
         .project-card.animate {
@@ -708,8 +722,8 @@
         }
 
         .project-image {
-            width: 380px; /* Inherits from card width */
-            height: 300px; /* Fixed height */
+            width: 100%; /* Responsive width */
+            height: 300px; /* Fixed height for image */
             background: linear-gradient(135deg, #00ffff, #ff00ff, #00ff88);
             display: flex;
             align-items: center;
@@ -777,7 +791,7 @@
         /* Timeline Experience Section */
         .timeline {
             position: relative;
-            width: 1000px; /* Fixed width */
+            max-width: 1000px; /* Responsive max-width */
             margin: 0 auto;
             padding: 20px 0;
         }
@@ -812,14 +826,14 @@
         }
 
         .timeline-item:nth-child(odd) .timeline-content {
-            margin-left: 550px; /* (1000px / 2) + 50px gap */
-            width: 400px; /* Fixed content width */
+            margin-left: calc(50% + 50px); /* Responsive margin */
+            width: 400px; /* Fixed width for content for aesthetic reasons */
         }
 
         .timeline-item:nth-child(even) .timeline-content {
-            margin-right: 550px; /* (1000px / 2) + 50px gap */
+            margin-right: calc(50% + 50px); /* Responsive margin */
             text-align: right;
-            width: 400px; /* Fixed content width */
+            width: 400px; /* Fixed width for content for aesthetic reasons */
         }
 
         .timeline-dot {
@@ -930,9 +944,9 @@
             box-shadow: 0 5px 15px rgba(0, 255, 255, 0.4);
         }
 
-        /* Current Projects Section - Now handled by Glide.js */
+        /* Current Project Card (inside slider) */
         .current-project {
-            width: 400px; /* Fixed width */
+            /* width is handled by Glide's perView and gap options */
             background: linear-gradient(135deg, rgba(0, 255, 255, 0.05), rgba(255, 0, 255, 0.05));
             padding: 50px;
             border-radius: 30px;
@@ -943,6 +957,7 @@
             transform: translateY(50px) rotateX(-10deg);
             position: relative;
             overflow: hidden;
+            flex-shrink: 0; /* Important for Glide.js slides */
         }
 
         .current-project::before {
@@ -1037,14 +1052,15 @@
         }
 
         .progress-bar {
-            width: 300px; /* Fixed width */
+            width: 100%; /* Responsive width within card */
+            max-width: 300px; /* Limit for aesthetic reasons */
             height: 30px;
             background: rgba(0, 0, 0, 0.5);
             border-radius: 15px;
             overflow: hidden;
             margin-bottom: 25px;
             border: 1px solid rgba(0, 255, 255, 0.2);
-            margin-left: auto; /* Center if card has specific text-align */
+            margin-left: auto;
             margin-right: auto;
         }
 
@@ -1073,7 +1089,7 @@
 
         /* Contact Section */
         .contact-content {
-            width: 800px; /* Fixed width */
+            max-width: 800px; /* Responsive max-width */
             margin: 0 auto;
             text-align: center;
         }
@@ -1087,12 +1103,9 @@
 
         .contact-info {
             display: grid;
-            grid-template-columns: 250px 250px 250px; /* Fixed columns */
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
             gap: 30px;
             margin-top: 50px;
-            width: 810px; /* 3*250px + 2*30px_gap = 810px */
-            margin-left: auto;
-            margin-right: auto;
         }
 
         .contact-item {
@@ -1103,7 +1116,6 @@
             transition: all 0.4s;
             opacity: 0;
             transform: translateY(50px);
-            width: 250px; /* Fixed width */
         }
 
         .contact-item.animate {
@@ -1157,8 +1169,357 @@
             border-top: 1px solid rgba(0, 255, 255, 0.2);
             color: #00ffff;
             font-size: 16px;
-            width: 1440px; /* Match body width */
-            margin: 0 auto;
+            width: 100%; /* Responsive width */
+        }
+
+        /* Responsive Styles (Mobile First Approach) */
+        @media (max-width: 1024px) {
+            .section {
+                padding: 100px 40px;
+            }
+
+            .section-title {
+                font-size: 60px;
+                margin-bottom: 60px;
+            }
+            
+            nav {
+                padding: 20px 40px;
+            }
+
+            nav ul {
+                gap: 15px;
+                padding: 10px 20px;
+            }
+
+            nav a {
+                padding: 8px 15px;
+                font-size: 13px;
+            }
+
+            .hero-content h1 {
+                font-size: 90px;
+            }
+
+            .hero-content h2 {
+                font-size: 36px;
+                margin-bottom: 30px;
+            }
+
+            .typing-text {
+                font-size: 20px;
+                margin-bottom: 40px;
+            }
+
+            .btn {
+                padding: 15px 40px;
+                font-size: 16px;
+            }
+
+            .timeline-item:nth-child(odd) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                width: calc(50% - 100px); /* Adjust width for smaller screens */
+            }
+
+            .glide__arrows {
+                width: 100%;
+                left: 0;
+            }
+            .glide__arrow--left {
+                margin-left: 0;
+            }
+            .glide__arrow--right {
+                margin-right: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                cursor: auto; /* Disable custom cursor on touch devices */
+            }
+
+            .cursor, .cursor-follower, .floating-element {
+                display: none; /* Hide custom cursor and floating elements */
+            }
+
+            nav {
+                padding: 15px 20px;
+                backdrop-filter: blur(15px);
+            }
+
+            .logo {
+                font-size: 28px;
+                gap: 10px;
+            }
+            .logo::before, .logo::after {
+                font-size: 18px;
+            }
+
+            /* Mobile Menu specific styles */
+            nav ul {
+                display: none; /* Hide by default */
+                flex-direction: column;
+                position: absolute;
+                top: 100%; /* Position below the nav bar */
+                left: 0;
+                width: 100%;
+                background: rgba(0, 0, 0, 0.9);
+                border-radius: 0;
+                border: none;
+                padding: 20px 0;
+                box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
+                transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+                transform: translateY(-100%);
+                opacity: 0;
+                pointer-events: none; /* Disable interaction when hidden */
+            }
+
+            nav ul.active {
+                display: flex;
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: auto; /* Enable interaction when active */
+            }
+
+            nav ul li {
+                width: 100%;
+                text-align: center;
+            }
+
+            nav a {
+                padding: 15px 0;
+                font-size: 16px;
+                border-radius: 0;
+            }
+            nav a::before, nav a::after { /* Remove hover effects for mobile list items */
+                display: none;
+            }
+            nav a:hover {
+                transform: none; /* Disable translateY on hover for mobile */
+            }
+
+            .menu-toggle {
+                display: flex; /* Show hamburger menu */
+            }
+
+            .hero {
+                height: auto; /* Allow hero to adapt to content height */
+                min-height: 100vh; /* Ensure it still covers viewport initially */
+                padding: 120px 20px 80px; /* Add padding for content below fixed nav */
+            }
+
+            .hero-content h1 {
+                font-size: 60px;
+                margin-bottom: 15px;
+                text-shadow: 0 0 40px rgba(0, 255, 255, 0.5);
+            }
+
+            .hero-content h2 {
+                font-size: 28px;
+                margin-bottom: 30px;
+                text-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+            }
+
+            .typing-text {
+                font-size: 18px;
+                margin-bottom: 40px;
+                min-height: 25px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .btn {
+                padding: 15px 30px;
+                font-size: 16px;
+                width: 80%; /* Make buttons wider */
+                margin: 0 auto; /* Center buttons */
+            }
+
+            .section {
+                padding: 80px 20px;
+            }
+
+            .section-title {
+                font-size: 48px;
+                margin-bottom: 60px;
+                text-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+            }
+
+            /* Glide.js specific adjustments for smaller screens */
+            .glide {
+                width: 100%; /* Take full width of parent (section) */
+            }
+            .glide__arrows {
+                display: flex; /* Ensure arrows are visible if needed */
+                width: calc(100% + 40px); /* Adjust width to fit within section padding */
+                left: -20px; /* Pull arrows out to section edges */
+            }
+            .glide__arrow {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+            .glide__bullet {
+                width: 10px;
+                height: 10px;
+            }
+
+            .skill-card, .project-card, .current-project {
+                padding: 40px;
+                text-align: center; /* Center content in cards */
+                transform: translateY(0) rotateY(0); /* Reset initial transform for mobile */
+            }
+            .skill-card:hover, .project-card:hover, .current-project:hover { /* Adjust hover for mobile, less aggressive */
+                transform: translateY(-10px) scale(1.02);
+                box-shadow: 0 15px 40px rgba(0, 255, 255, 0.3);
+            }
+            .skill-icon, .current-icon {
+                font-size: 60px;
+                margin-bottom: 20px;
+            }
+            .skill-card h3, .project-content h3, .current-project h3 {
+                font-size: 24px;
+                margin-bottom: 15px;
+            }
+            .skill-card p, .project-content p, .current-project p {
+                font-size: 15px;
+            }
+
+            .project-image {
+                height: 200px; /* Smaller image height */
+                font-size: 72px;
+            }
+            .project-content {
+                padding: 30px;
+            }
+            .tech-tag {
+                padding: 6px 15px;
+                font-size: 13px;
+            }
+
+            /* Timeline Specific Adjustments */
+            .timeline::before {
+                left: 30px;
+            }
+
+            .timeline-dot {
+                left: 30px;
+            }
+
+            .timeline-item:nth-child(odd) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                margin-left: 80px; /* Align all to the right of the line */
+                margin-right: 0;
+                text-align: left;
+                width: auto; /* Allow width to be responsive to available space */
+            }
+
+            .timeline-item:nth-child(odd) .timeline-content::before,
+            .timeline-item:nth-child(even) .timeline-content::before {
+                left: -30px; /* Point to the line */
+                right: auto;
+            }
+
+            .timeline-item:nth-child(even) .experience-tags {
+                justify-content: flex-start; /* Align tags left */
+            }
+
+            .timeline-content {
+                padding: 30px;
+            }
+            .timeline-date {
+                font-size: 12px;
+            }
+            .timeline-content h3 {
+                font-size: 24px;
+            }
+            .timeline-content h4 {
+                font-size: 16px;
+            }
+            .timeline-content p {
+                font-size: 15px;
+            }
+            .exp-tag {
+                font-size: 11px;
+            }
+            
+            .progress-bar {
+                max-width: 250px; /* Slightly smaller for mobile */
+                height: 25px;
+                margin-bottom: 20px;
+            }
+            .progress-text {
+                font-size: 11px;
+            }
+
+            .contact-content p {
+                font-size: 16px;
+                margin-bottom: 40px;
+            }
+            .contact-info {
+                grid-template-columns: 1fr; /* Single column */
+                gap: 20px;
+                margin-top: 30px;
+            }
+            .contact-item {
+                padding: 30px;
+                transform: translateY(0); /* Reset initial transform for mobile */
+            }
+            .contact-item:hover { /* Adjust hover for mobile, less aggressive */
+                transform: translateY(-5px) scale(1.02);
+                box-shadow: 0 10px 30px rgba(0, 255, 255, 0.2);
+            }
+            .contact-icon {
+                font-size: 38px;
+                margin-bottom: 15px;
+            }
+            .contact-item h3 {
+                font-size: 18px;
+            }
+            .contact-item p {
+                font-size: 14px;
+            }
+
+            footer {
+                padding: 40px 20px;
+                font-size: 14px;
+            }
+        }
+
+        /* Further reduce for very small screens if necessary */
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 48px;
+            }
+            .hero-content h2 {
+                font-size: 24px;
+            }
+            .typing-text {
+                font-size: 16px;
+            }
+            .section-title {
+                font-size: 38px;
+            }
+            .cta-buttons {
+                width: 100%;
+            }
+            .btn {
+                width: 95%;
+            }
+            .skill-icon, .current-icon {
+                font-size: 50px;
+            }
+            .skill-card h3, .project-content h3, .timeline-content h3, .current-project h3 {
+                font-size: 22px;
+            }
+            .glide__arrow {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
         }
     </style>
 </head>
@@ -1425,7 +1786,7 @@
                         <h3>AI-Powered Code Assistant</h3>
                         <p>Building an intelligent code completion and refactoring tool using machine learning. Integrates with VS Code and provides context-aware suggestions for multiple programming languages.</p>
                         <div class="progress-bar">
-                            <div class="progress-fill" style="width: 225px"> <!-- 75% of 300px -->
+                            <div class="progress-fill" style="width: 75%"> <!-- Now responsive percentage -->
                                 <span class="progress-text">75% Complete</span>
                             </div>
                         </div>
@@ -1446,7 +1807,7 @@
                         <h3>Real-Time Collaboration Platform</h3>
                         <p>Developing a next-gen collaborative workspace with video conferencing, shared code editors, whiteboarding, and project management tools all in one seamless interface.</p>
                         <div class="progress-bar">
-                            <div class="progress-fill" style="width: 180px"> <!-- 60% of 300px -->
+                            <div class="progress-fill" style="width: 60%"> <!-- Now responsive percentage -->
                                 <span class="progress-text">60% Complete</span>
                             </div>
                         </div>
@@ -1467,7 +1828,7 @@
                         <h3>Metaverse Shopping Experience</h3>
                         <p>Conceptualizing an immersive 3D shopping environment where users can explore virtual stores, interact with products in AR, and make purchases using cryptocurrency.</p>
                         <div class="progress-bar">
-                            <div class="progress-fill" style="width: 90px"> <!-- 30% of 300px -->
+                            <div class="progress-fill" style="width: 30%"> <!-- Now responsive percentage -->
                                 <span class="progress-text">30% Complete</span>
                             </div>
                         </div>
@@ -1543,7 +1904,7 @@
         const menuToggle = document.getElementById('menuToggle');
         const navMenu = document.getElementById('navMenu');
 
-        // Mobile Menu Toggle - CSS hides this, JS remains for functionality if re-enabled
+        // Mobile Menu Toggle
         menuToggle.addEventListener('click', () => {
             menuToggle.classList.toggle('active');
             navMenu.classList.toggle('active');
@@ -1560,7 +1921,7 @@
                         block: 'start'
                     });
                 }
-                // If a mobile menu was active, close it (not active in fixed desktop)
+                // If a mobile menu was active, close it
                 if (navMenu.classList.contains('active')) {
                     menuToggle.classList.remove('active');
                     navMenu.classList.remove('active');
@@ -1568,27 +1929,34 @@
             });
         });
 
-        // Custom cursor is always active (as responsiveness is removed)
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            
-            setTimeout(() => {
-                cursorFollower.style.left = e.clientX + 'px';
-                cursorFollower.style.top = e.clientY + 'px';
-            }, 100);
-        });
+        // Only show custom cursor on non-touch devices
+        if (!('ontouchstart' in window || navigator.maxTouchPoints)) {
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+                
+                setTimeout(() => {
+                    cursorFollower.style.left = e.clientX + 'px';
+                    cursorFollower.style.top = e.clientY + 'px';
+                }, 100);
+            });
 
-        document.querySelectorAll('a, .btn').forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursor.style.transform = 'scale(1.5)';
-                cursorFollower.style.transform = 'scale(1.5)';
+            document.querySelectorAll('a, .btn').forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    cursor.style.transform = 'scale(1.5)';
+                    cursorFollower.style.transform = 'scale(1.5)';
+                });
+                el.addEventListener('mouseleave', () => {
+                    cursor.style.transform = 'scale(1)';
+                    cursorFollower.style.transform = 'scale(1)';
+                });
             });
-            el.addEventListener('mouseleave', () => {
-                cursor.style.transform = 'scale(1)';
-                cursorFollower.style.transform = 'scale(1)';
-            });
-        });
+        } else {
+            // Hide cursors on touch devices
+            cursor.style.display = 'none';
+            cursorFollower.style.display = 'none';
+            document.body.style.cursor = 'auto';
+        }
 
         // Typing Animation
         const texts = [
@@ -1655,44 +2023,46 @@
         // Smooth Scroll
         // (Handled by the updated nav a event listener)
 
-        // Parallax Effect - Always active as responsiveness is removed
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const hero = document.querySelector('.hero-content');
-            const floatingElements = document.querySelectorAll('.floating-element');
-            
-            if (hero) {
-                hero.style.transform = `translateY(${scrolled * 0.4}px)`;
-                hero.style.opacity = Math.max(0, 1 - (scrolled / 600));
-            }
+        // Parallax Effect - Only apply on non-touch devices for performance
+        if (!('ontouchstart' in window || navigator.maxTouchPoints)) {
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                const hero = document.querySelector('.hero-content');
+                const floatingElements = document.querySelectorAll('.floating-element');
+                
+                if (hero) {
+                    hero.style.transform = `translateY(${scrolled * 0.4}px)`;
+                    hero.style.opacity = Math.max(0, 1 - (scrolled / 600));
+                }
 
-            floatingElements.forEach((el, index) => {
-                const speed = 0.2 + (index * 0.1);
-                el.style.transform = `translateY(${scrolled * speed}px) rotate(${scrolled * 0.1}deg)`;
+                floatingElements.forEach((el, index) => {
+                    const speed = 0.2 + (index * 0.1);
+                    el.style.transform = `translateY(${scrolled * speed}px) rotate(${scrolled * 0.1}deg)`;
+                });
             });
-        });
 
-        // Mouse Move Parallax for cards - Always active (will apply to individual slider items)
-        document.querySelectorAll('.skill-card, .project-card, .current-project').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
+            // Mouse Move Parallax for cards - Only on non-touch devices
+            document.querySelectorAll('.skill-card, .project-card, .current-project').forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const rotateX = (y - centerY) / 10;
+                    const rotateY = (centerX - x) / 10;
+                    
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-20px) scale(1.05)`;
+                });
                 
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                const rotateX = (y - centerY) / 10;
-                const rotateY = (centerX - x) / 10;
-                
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-20px) scale(1.05)`;
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0) scale(1)';
+                });
             });
-            
-            card.addEventListener('mouseleave', () => {
-                // Reset transform but keep animate for scroll reveal
-                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0) scale(1)';
-            });
-        });
+        }
+
 
         // Navbar Background on Scroll
         window.addEventListener('scroll', () => {
@@ -1716,30 +2086,31 @@
             });
         });
 
-        // Random Particle Generation - Always active
-        function createParticle() {
-            const particle = document.createElement('div');
-            particle.style.position = 'fixed';
-            particle.style.width = Math.random() * 3 + 1 + 'px';
-            particle.style.height = particle.style.width;
-            particle.style.background = `rgba(${Math.random() * 255}, ${Math.random() * 255}, 255, 0.5)`;
-            particle.style.borderRadius = '50%';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.top = '100%';
-            particle.style.pointerEvents = 'none';
-            particle.style.zIndex = '0';
-            
-            document.body.appendChild(particle);
-            
-            const duration = Math.random() * 3 + 2;
-            particle.style.animation = `float ${duration}s linear`;
-            
-            setTimeout(() => {
-                particle.remove();
-            }, duration * 1000);
+        // Random Particle Generation - Only on non-touch devices for performance
+        if (!('ontouchstart' in window || navigator.maxTouchPoints)) {
+            function createParticle() {
+                const particle = document.createElement('div');
+                particle.style.position = 'fixed';
+                particle.style.width = Math.random() * 3 + 1 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.background = `rgba(${Math.random() * 255}, ${Math.random() * 255}, 255, 0.5)`;
+                particle.style.borderRadius = '50%';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = '100%';
+                particle.style.pointerEvents = 'none';
+                particle.style.zIndex = '0';
+                
+                document.body.appendChild(particle);
+                
+                const duration = Math.random() * 3 + 2;
+                particle.style.animation = `float ${duration}s linear`;
+                
+                setTimeout(() => {
+                    particle.remove();
+                }, duration * 1000);
+            }
+            setInterval(createParticle, 200);
         }
-
-        setInterval(createParticle, 200);
 
         // Section Title Animation on View
         const titleObserver = new IntersectionObserver((entries) => {
@@ -1758,33 +2129,63 @@
             titleObserver.observe(title);
         });
 
-        // Initialize Glide.js sliders
+        // Initialize Glide.js sliders with responsiveness
         document.addEventListener('DOMContentLoaded', function() {
             new Glide('#skills-slider', {
-                type: 'carousel', // Provides infinite looping
-                autoplay: 3000,   // Auto-scroll every 3 seconds
-                perView: 3,       // 3 skills cards visible at once
-                gap: 40,          // Gap between skill cards
+                type: 'carousel',
+                autoplay: 3000,
                 animationDuration: 800,
-                hoverpause: true, // Pause autoplay on hover
+                hoverpause: true,
+                perView: 3, // Default for large screens
+                gap: 40,
+                breakpoints: {
+                    1024: { // Tablet screens
+                        perView: 2,
+                        gap: 30
+                    },
+                    768: { // Mobile screens
+                        perView: 1,
+                        gap: 20
+                    }
+                }
             }).mount();
 
             new Glide('#projects-slider', {
-                type: 'carousel', // Provides infinite looping
-                autoplay: 4000,   // Auto-scroll every 4 seconds
-                perView: 3,       // 3 project cards visible at once
-                gap: 50,          // Gap between project cards
+                type: 'carousel',
+                autoplay: 4000,
                 animationDuration: 800,
-                hoverpause: true, // Pause autoplay on hover
+                hoverpause: true,
+                perView: 3, // Default for large screens
+                gap: 50,
+                breakpoints: {
+                    1024: { // Tablet screens
+                        perView: 2,
+                        gap: 30
+                    },
+                    768: { // Mobile screens
+                        perView: 1,
+                        gap: 20
+                    }
+                }
             }).mount();
 
             new Glide('#current-slider', {
-                type: 'carousel', // Provides infinite looping
-                autoplay: 5000,   // Auto-scroll every 5 seconds
-                perView: 2,       // Changed to 2 for visible scrolling (3 projects total)
-                gap: 50,          // Gap between current project cards
+                type: 'carousel',
+                autoplay: 5000,
                 animationDuration: 800,
-                hoverpause: true, // Pause autoplay on hover
+                hoverpause: true,
+                perView: 3, // Default for large screens (changed from 2 to 3 for better desktop display given 3 items)
+                gap: 50,
+                breakpoints: {
+                    1024: { // Tablet screens
+                        perView: 2,
+                        gap: 30
+                    },
+                    768: { // Mobile screens
+                        perView: 1,
+                        gap: 20
+                    }
+                }
             }).mount();
         });
     </script>
